@@ -58,13 +58,13 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
             if buf.ends_with(b"##END##") {
                 buf.truncate(buf.len() - 7);
-                log::info!("Server response: {}", String::from_utf8_lossy(&buf));
+                log::info!("{}", String::from_utf8_lossy(&buf));
                 buf.clear();
             }
         }
     });
 
     tokio::try_join!(user_input_handler, server_response_handler)?;
-
+    // tcp_stream.shutdown().await?;
     Ok(())
 }

@@ -6,6 +6,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     env_logger::init();
 
     let tcp_stream = TcpStream::connect("127.0.0.1:8080").await?;
+    let socket_addr = tcp_stream.peer_addr()?;
 
     let (mut rd_stream, mut wrt_stream) = tcp_stream.into_split();
     log::info!("created stream");
@@ -36,7 +37,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                         break;
                     }
                 }
-                log::info!("sent message");
+                log::info!("{}: {}", socket_addr.to_string(), input);
             }
         }
     });
